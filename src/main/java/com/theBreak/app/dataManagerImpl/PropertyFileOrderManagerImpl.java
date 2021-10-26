@@ -2,15 +2,20 @@ package com.theBreak.app.dataManagerImpl;
 
 import com.theBreak.app.dataManager.OrderManager;
 import com.theBreak.app.model.order.Order;
+import com.theBreak.app.utils.AppUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class PropertyFileOrderManagerImpl implements OrderManager {
 
     String fileName;
+    AppUtils autils = new AppUtils();
+
 
     static PropertyFileOrderManagerImpl PropertyFileOrderManager = null;
 
@@ -35,18 +40,20 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
 
         properties.setProperty("Order." + counter.incrementAndGet() + ".firstname", order.getFirstname());
         properties.setProperty("Order." + counter.get() + ".name", order.getName());
-        properties.setProperty("Order." + counter.get() + ".usermail-address", "" + order.getUser_mail_address());
-        properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreet_and_nr());
+        properties.setProperty("Order." + counter.get() + ".usermail-address", "" + order.getUserMailAddress());
+        properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreetAndNr());
         properties.setProperty("Order." + counter.get() + ".city", "" + order.getCity());
         properties.setProperty("Order." + counter.get() + ".postcode", "" + order.getPostcode());
-        for(int i = 0; i <= order.getRegularOrders().length; i++){
+        for(int i = 0; i <= order.getRegularOrders().size(); i++){
             properties.setProperty("Order." + counter.get() + ".orders", "" + order.getSelectedOrderArticle(i));
             i++;
         }
         properties.setProperty("Order." + counter.get() + ".sum", "" + order.getSum());
-        properties.setProperty("Order." + counter.get() + ".order paid", "" + order.isOrder_paid());
-        properties.setProperty("Order." + counter.get() + ".pick-up date", "" + order.getPick_up_date());
-        properties.setProperty("Order." + counter.get() + ".ordertime", "" + order.getOrdertime());
+        properties.setProperty("Order." + counter.get() + ".order paid", "" + order.isOrderPaid());
+        properties.setProperty("Order." + counter.get() + ".pick-up date", "" + order.getPickUpDate());
+        properties.setProperty("Order." + counter.get() + ".ordertime", "" + autils.getTimestamp() );
+
+
 
 
         try {

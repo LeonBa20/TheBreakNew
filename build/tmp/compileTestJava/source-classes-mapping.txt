@@ -1,2 +1,2 @@
-com/theBreak/app/DemoApplicationTests.java
- com.theBreak.app.DemoApplicationTests
+com/theBreak/app/TheBreakApplicationTests.java
+ com.theBreak.app.TheBreakApplicationTests

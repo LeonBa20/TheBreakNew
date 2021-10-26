@@ -2,39 +2,40 @@ package com.theBreak.app.model.order;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 
     private String firstname;
     private String name;
-    private String user_mail_address;
-    private String billing_mail_address;
-    private String street_and_nr;
+    private String userMailAddress;
+    private String billingMailAddress;
+    private String streetAndNr;
     private String city;
     private String postcode;
-    private int[] regularOrders;
-    private int[] congiguredOrders;
+    private List<Integer> regularOrders = null;
+    private List<Integer> congiguredOrders = null;
     private double[] prices;
     private double sum;
-    private boolean order_paid;
-    private String pick_up_date;
-    private Date ordertime;
+    private boolean orderPaid;
+    private String pickUpDate;
+    private String ordertime;
 
     public Order() {}
 
     public Order(String firstname, String name, String user_mail_address, String street_and_nr,
-                 String city, String postcode, int[] regularOrders, boolean order_paid, String pick_up_date){
+                 String city, String postcode, List<Integer> regularOrders, boolean order_paid, String pick_up_date){
+        super();
         this.firstname = firstname;
         this.name = name;
-        this.user_mail_address = user_mail_address;
-        this.street_and_nr = street_and_nr;
+        this.userMailAddress = user_mail_address;
+        this.streetAndNr = street_and_nr;
         this.city = city;
         this.postcode = postcode;
         this.regularOrders = regularOrders;
         this.sum = this.calcSum();
-        this.order_paid = order_paid;
-        this.pick_up_date = pick_up_date;
-        this.ordertime = this.getTimestamp();
+        this.orderPaid = order_paid;
+        this.pickUpDate = pick_up_date;
     }
 
     public String getFirstname() {
@@ -53,28 +54,28 @@ public class Order {
         this.name = name;
     }
 
-    public String getUser_mail_address() {
-        return user_mail_address;
+    public String getUserMailAddress() {
+        return userMailAddress;
     }
 
-    public void setUser_mail_address(String user_mail_address) {
-        this.user_mail_address = user_mail_address;
+    public void setUserMailAddress(String userMailAddress) {
+        this.userMailAddress = userMailAddress;
     }
 
-    public String getBilling_mail_address() {
-        return billing_mail_address;
+    public String getBillingMailAddress() {
+        return billingMailAddress;
     }
 
-    public void setBilling_mail_address(String billing_mail_address) {
-        this.billing_mail_address = billing_mail_address;
+    public void setBillingMailAddress(String billingMailAddress) {
+        this.billingMailAddress = billingMailAddress;
     }
 
-    public String getStreet_and_nr() {
-        return street_and_nr;
+    public String getStreetAndNr() {
+        return streetAndNr;
     }
 
-    public void setStreet_and_nr(String street_and_nr) {
-        this.street_and_nr = street_and_nr;
+    public void setStreetAndNr(String streetAndNr) {
+        this.streetAndNr = streetAndNr;
     }
 
     public String getCity() {
@@ -93,11 +94,11 @@ public class Order {
         this.postcode = postcode;
     }
 
-    public int[] getRegularOrders() {
+    public List<Integer> getRegularOrders() {
         return regularOrders;
     }
 
-    public void setRegularOrders(int[] regularOrders) {
+    public void setRegularOrders(List<Integer> regularOrders) {
         this.regularOrders = regularOrders;
     }
 
@@ -117,35 +118,35 @@ public class Order {
         this.sum = sum;
     }
 
-    public boolean isOrder_paid() {
-        return order_paid;
+    public boolean isOrderPaid() {
+        return orderPaid;
     }
 
-    public void setOrder_paid(boolean order_paid) {
-        this.order_paid = order_paid;
+    public void setOrderPaid(boolean orderPaid) {
+        this.orderPaid = orderPaid;
     }
 
-    public String getPick_up_date() {
-        return pick_up_date;
+    public String getPickUpDate() {
+        return pickUpDate;
     }
 
-    public void setPick_up_date(String pick_up_date) {
-        this.pick_up_date = pick_up_date;
+    public void setPickUpDate(String pickUpDate) {
+        this.pickUpDate = pickUpDate;
     }
 
-    public Date getOrdertime() {
+    public String getOrdertime() {
         return ordertime;
     }
 
-    public void setOrdertime(Date ordertime) {
+    public void setOrdertime(String ordertime) {
         this.ordertime = ordertime;
     }
 
-    public int[] getCongiguredOrders() {
+    public List<Integer> getCongiguredOrders() {
         return congiguredOrders;
     }
 
-    public void setCongiguredOrders(int[] congiguredOrders) {
+    public void setCongiguredOrders(List<Integer> congiguredOrders) {
         this.congiguredOrders = congiguredOrders;
     }
 
@@ -156,17 +157,17 @@ public class Order {
         }
         return subtotal;
     }
-     public Date getTimestamp(){
+     public void getTimestamp(){
         Timestamp ts = new Timestamp(System.currentTimeMillis());
-        Date date = new Date(ts.getTime());
-        return date;
+        Date date = ts;
+        this.ordertime = date.toString();
      }
 
      public int getSelectedOrderArticle(int selection){
         if (selection > 9) {
             return 0;
          } else {
-            return this.regularOrders[selection];
+            return this.regularOrders.get(selection);
         }
      }
 
