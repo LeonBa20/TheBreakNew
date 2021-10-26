@@ -12,7 +12,8 @@ public class Order {
     private String street_and_nr;
     private String city;
     private String postcode;
-    private int[] orders;
+    private int[] regularOrders;
+    private int[] congiguredOrders;
     private double[] prices;
     private double sum;
     private boolean order_paid;
@@ -21,17 +22,15 @@ public class Order {
 
     public Order() {}
 
-    public Order(String firstname, String name, String user_mail_address,
-                 String street_and_nr, String city, String postcode, int[] orders, double[] prices,
-                 boolean order_paid, String pick_up_date){
+    public Order(String firstname, String name, String user_mail_address, String street_and_nr,
+                 String city, String postcode, int[] regularOrders, boolean order_paid, String pick_up_date){
         this.firstname = firstname;
         this.name = name;
         this.user_mail_address = user_mail_address;
         this.street_and_nr = street_and_nr;
         this.city = city;
         this.postcode = postcode;
-        this.orders = orders;
-        this.prices = prices;
+        this.regularOrders = regularOrders;
         this.sum = this.calcSum();
         this.order_paid = order_paid;
         this.pick_up_date = pick_up_date;
@@ -94,12 +93,12 @@ public class Order {
         this.postcode = postcode;
     }
 
-    public int[] getOrders() {
-        return orders;
+    public int[] getRegularOrders() {
+        return regularOrders;
     }
 
-    public void setOrders(int[] orders) {
-        this.orders = orders;
+    public void setRegularOrders(int[] regularOrders) {
+        this.regularOrders = regularOrders;
     }
 
     public double[] getPrices() {
@@ -142,6 +141,14 @@ public class Order {
         this.ordertime = ordertime;
     }
 
+    public int[] getCongiguredOrders() {
+        return congiguredOrders;
+    }
+
+    public void setCongiguredOrders(int[] congiguredOrders) {
+        this.congiguredOrders = congiguredOrders;
+    }
+
     public double calcSum(){
         double subtotal = 0;
         for(double prices : this.prices ){
@@ -159,7 +166,7 @@ public class Order {
         if (selection > 9) {
             return 0;
          } else {
-            return this.orders[selection];
+            return this.regularOrders[selection];
         }
      }
 

@@ -39,7 +39,7 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreet_and_nr());
         properties.setProperty("Order." + counter.get() + ".city", "" + order.getCity());
         properties.setProperty("Order." + counter.get() + ".postcode", "" + order.getPostcode());
-        for(int i = 0; i <= order.getOrders().length; i++){
+        for(int i = 0; i <= order.getRegularOrders().length; i++){
             properties.setProperty("Order." + counter.get() + ".orders", "" + order.getSelectedOrderArticle(i));
             i++;
         }
