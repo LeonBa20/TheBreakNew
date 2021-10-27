@@ -44,10 +44,10 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreetAndNr());
         properties.setProperty("Order." + counter.get() + ".city", "" + order.getCity());
         properties.setProperty("Order." + counter.get() + ".postcode", "" + order.getPostcode());
-        for(int i = 0; i <= order.getRegularOrders().size(); i++){
-            properties.setProperty("Order." + counter.get() + ".orders", "" + order.getSelectedOrderArticle(i));
-            i++;
-        }
+        properties.setProperty("Order." + counter.get() + ".orders", "" + order.getSelectedOrderArticle(0));
+        properties.setProperty("Order." + counter.get() + ".orders2", "" + order.getSelectedOrderArticle(1));
+        properties.setProperty("Order." + counter.get() + ".orders3", "" + order.getSelectedOrderArticle(2));
+        properties.setProperty("Order." + counter.get() + ".configuredOrders3", "" + order.configuredOrdersToString(1));
         properties.setProperty("Order." + counter.get() + ".sum", "" + order.getSum());
         properties.setProperty("Order." + counter.get() + ".order paid", "" + order.isOrderPaid());
         properties.setProperty("Order." + counter.get() + ".pick-up date", "" + order.getPickUpDate());
