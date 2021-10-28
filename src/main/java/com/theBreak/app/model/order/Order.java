@@ -1,5 +1,6 @@
 package com.theBreak.app.model.order;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +9,10 @@ public class Order {
     private String firstname;
     private String name;
     private String userMailAddress;
-    private String billingMailAddress;
     private String streetAndNr;
     private String city;
     private String postcode;
-    private ArrayList<Integer> regularOrders;
+    private ArrayList<String> regularOrders;
     private ArrayList<String> configuredBowl1;
     private ArrayList<String> configuredBowl2;
     private ArrayList<String> configuredBowl3;
@@ -20,12 +20,15 @@ public class Order {
     private double sum;
     private boolean orderPaid;
     private String pickUpDate;
+    private String pickupTime;
     private String ordertime;
+    private int orderId;
 
     public Order() {}
 
     public Order(String firstname, String name, String user_mail_address, String street_and_nr,
-                 String city, String postcode, ArrayList<Integer> regularOrders, ArrayList<String> configuredBowl1, boolean order_paid, String pick_up_date){
+                 String city, String postcode, ArrayList<String> regularOrders, ArrayList<String> configuredBowl1,
+                 boolean order_paid, String pick_up_date, String pickupTime){
         super();
         this.firstname = firstname;
         this.name = "hallo";
@@ -35,9 +38,9 @@ public class Order {
         this.postcode = postcode;
         this.regularOrders = regularOrders;
         this.configuredBowl1 = configuredBowl1;
-        this.sum = this.calcSum();
         this.orderPaid = order_paid;
         this.pickUpDate = pick_up_date;
+        this.pickupTime = pickupTime;
     }
 
     public String getFirstname() {
@@ -64,14 +67,6 @@ public class Order {
         this.userMailAddress = userMailAddress;
     }
 
-    public String getBillingMailAddress() {
-        return billingMailAddress;
-    }
-
-    public void setBillingMailAddress(String billingMailAddress) {
-        this.billingMailAddress = billingMailAddress;
-    }
-
     public String getStreetAndNr() {
         return streetAndNr;
     }
@@ -96,11 +91,11 @@ public class Order {
         this.postcode = postcode;
     }
 
-    public List<Integer> getRegularOrders() {
+    public List<String> getRegularOrders() {
         return regularOrders;
     }
 
-    public void setRegularOrders(ArrayList<Integer> regularOrders) {
+    public void setRegularOrders(ArrayList<String> regularOrders) {
         this.regularOrders = regularOrders;
     }
 
@@ -168,6 +163,22 @@ public class Order {
         this.configuredBowl3 = configuredBowl3;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPickupTime() {
+        return pickupTime;
+    }
+
+    public void setPickupTime(String pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
     public double calcSum(){
         double subtotal = 0;
         for(double prices : this.prices ){
@@ -176,34 +187,8 @@ public class Order {
         return subtotal;
     }
 
-     public int getSelectedOrderArticle(int selection){
-        if (selection > 9) {
-            return 0;
-         } else {
-            return this.regularOrders.get(selection);
-        }
-     }
 
-     public String configuredOrdersToString (int configSelect){
-        String ingredientList = "";
-        if (configSelect == 1) {
-            for (int i = 0; i < this.configuredBowl1.size(); i++ ) {
-                if (i < this.configuredBowl1.size() - 1) {
-                    ingredientList += this.configuredBowl1.get(i) + ", ";
-                } else {
-                    ingredientList += this.configuredBowl1.get(i);
-                }
-            }
-        }else if (configSelect == 2) {
-            for (String ingredient : this.configuredBowl2) {
-                ingredientList += ingredient;
-            }
-        }else if (configSelect == 3) {
-            for (String ingredient : this.configuredBowl3) {
-                ingredientList += ingredient;
-            }
-        }
-        return ingredientList;
-     }
+
+
 
 }

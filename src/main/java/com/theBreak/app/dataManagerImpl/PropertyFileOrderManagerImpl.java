@@ -2,19 +2,17 @@ package com.theBreak.app.dataManagerImpl;
 
 import com.theBreak.app.dataManager.OrderManager;
 import com.theBreak.app.model.order.Order;
-import com.theBreak.app.utils.AppUtils;
+import com.theBreak.app.utils.OrderUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class PropertyFileOrderManagerImpl implements OrderManager {
 
     String fileName;
-    AppUtils autils = new AppUtils();
+    OrderUtils oUtils = new OrderUtils();
 
 
     static PropertyFileOrderManagerImpl PropertyFileOrderManager = null;
@@ -44,14 +42,14 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreetAndNr());
         properties.setProperty("Order." + counter.get() + ".city", "" + order.getCity());
         properties.setProperty("Order." + counter.get() + ".postcode", "" + order.getPostcode());
-        properties.setProperty("Order." + counter.get() + ".orders", "" + order.getSelectedOrderArticle(0));
-        properties.setProperty("Order." + counter.get() + ".orders2", "" + order.getSelectedOrderArticle(1));
-        properties.setProperty("Order." + counter.get() + ".orders3", "" + order.getSelectedOrderArticle(2));
-        properties.setProperty("Order." + counter.get() + ".configuredOrders3", "" + order.configuredOrdersToString(1));
+        properties.setProperty("Order." + counter.get() + ".orders", "" + oUtils.getSelectedOrderArticle(order,0));
+        properties.setProperty("Order." + counter.get() + ".orders2", "" + oUtils.getSelectedOrderArticle(order,1));
+        properties.setProperty("Order." + counter.get() + ".orders3", "" + oUtils.getSelectedOrderArticle(order,2));
+        properties.setProperty("Order." + counter.get() + ".configuredOrders1", "" + oUtils.configuredBowlsToString(order,1));
         properties.setProperty("Order." + counter.get() + ".sum", "" + order.getSum());
         properties.setProperty("Order." + counter.get() + ".order paid", "" + order.isOrderPaid());
         properties.setProperty("Order." + counter.get() + ".pick-up date", "" + order.getPickUpDate());
-        properties.setProperty("Order." + counter.get() + ".ordertime", "" + autils.getTimestamp() );
+        properties.setProperty("Order." + counter.get() + ".ordertime", "" + oUtils.getTimestamp() );
 
 
 
