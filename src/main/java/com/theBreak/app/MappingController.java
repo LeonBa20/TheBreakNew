@@ -1,8 +1,10 @@
 package com.theBreak.app;
 
 import com.theBreak.app.dataManager.OrderManager;
+import com.theBreak.app.dataManagerImpl.PostgresOrderManagerImpl;
 import com.theBreak.app.dataManagerImpl.PropertyFileOrderManagerImpl;
 import com.theBreak.app.model.order.Order;
+import com.theBreak.app.model.order.OrderList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1.0")
 
 public class MappingController {
-    OrderManager orderManager = PropertyFileOrderManagerImpl.getPropertyFileOrderManagerImpl("src/main/resources/orderList.properties");
+    OrderManager orderManager = PostgresOrderManagerImpl.getPostgresOrderManagerImpl();
 
 
     @PostMapping(
@@ -23,5 +25,27 @@ public class MappingController {
     public String createTask(@RequestBody Order order) {
         orderManager.addOrder(order);
         return order.getName();
+    }
+
+    @GetMapping("/order/all")
+    public OrderList getOrders(@RequestParam(value = "userMailAddress") String userMailAddress) {
+
+        OrderList orderList = new OrderList(userMailAddress);
+        orderList.setOrders();
+
+        return orderList;
+    }
+
+    @PostMapping(
+            path = "/order/createtable"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public String createOrder() {
+
+        final PostgresOrderManagerImpl postgresOrderManagerImpl =
+                PostgresOrderManagerImpl.getPostgresOrderManagerImpl();
+        postgresOrderManagerImpl.createOrdersTable();
+
+        return "Database Table created";
     }
 }

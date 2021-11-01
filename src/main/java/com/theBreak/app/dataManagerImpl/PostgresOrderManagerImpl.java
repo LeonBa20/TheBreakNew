@@ -6,17 +6,21 @@ import com.theBreak.app.utils.OrderUtils;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class PostgresOrderManagerImpl implements OrderManager {
 
     OrderUtils oUtils = new OrderUtils();
 
 
-    String databaseURL = "jdbc:postgresql://ec2-44-199-83-229.compute-1.amazonaws.com:5432/d96tmqltf5lrg2";
-    String username = "jdvrqgzhrdpulq";
-    String password = "2657b5862765dfe661063ff6f4673f7993f55367948ef32022a28215a32b2d89";
+    String databaseURL = "jdbc:postgresql://ec2-34-251-245-108.eu-west-1.compute.amazonaws.com:5432/dfqljtejfsvqgl";
+    String username = "ttiwxchgaycxvi";
+    String password = "104ce8459d7a0770e4088cad1bcbf7a0423528ce176f22ae90a115c713c8d34a";
     BasicDataSource basicDataSource;
 
     static PostgresOrderManagerImpl postgresOrderManager = null;
@@ -63,9 +67,9 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "orderedArticle6 varchar(30), " +
                     "orderedArticle7 varchar(30), " +
                     "orderedArticle8 varchar(30), " +
-                    "configBowl1 varchar(300), " +
-                    "configBowl2 varchar(300), " +
-                    "configBowl3 varchar(300), " +
+                    "configBowl1 varchar(350), " +
+                    "configBowl2 varchar(350), " +
+                    "configBowl3 varchar(350), " +
                     "sum double precision, " +
                     "orderPaid boolean NOT NULL, " +
                     "pickupDate varchar(15) NOT NULL, " +
@@ -123,7 +127,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "'" + order.isOrderPaid() + "', " +
                     "'" + order.getPickUpDate() + "', " +
                     "'" + order.getPickupTime() + "', " +
-                    "'" + order.getOrdertime() + "')";
+                    "'" + oUtils.getTimestamp() + "')";
 
             stmt.executeUpdate(udapteSQL);
 
@@ -141,23 +145,37 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
     }
 
-   /* @Override
-    public Collection<Task> getAllTasks(Student student) {
-
-        List<Task> tasks = new ArrayList<>();
+    @Override
+    public Collection<Order> getAllOrders(String userMailAddress) {
+        List<Order> orders = new ArrayList<>();
         Statement stmt = null;
         Connection connection = null;
 
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM tasks");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tasks WHERE userMailAddress = " + userMailAddress);
             while (rs.next()) {
-                tasks.add(
-                        new Task(
+                orders.add(
+                        new Order(
+                                rs.getString("firstName"),
                                 rs.getString("name"),
-                                rs.getString("description"),
-                                rs.getInt("priority")
+                                rs.getString("userMailAddress"),
+                                rs.getString("streetAndNr"),
+                                rs.getString("city"),
+                                rs.getString("postcode"),
+                                oUtils.getOrdersAsList(rs.getString("orderedArticle1"),rs.getString("orderedArticle2"),
+                                       rs.getString("orderedArticle3"),rs.getString("orderedArticle4"),rs.getString("orderedArticle5"),
+                                       rs.getString("orderedArticle6"),rs.getString("orderedArticle7"),rs.getString("orderedArticle8")),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl1")),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl2")),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl3")),
+                                rs.getDouble("sum"),
+                                rs.getBoolean("orderPaid"),
+                                rs.getString("pickUpDate"),
+                                rs.getString("pickupTime"),
+                                rs.getString("orderTime"),
+                                rs.getInt("orderId")
                         )
                 );
             }
@@ -173,38 +191,6 @@ public class PostgresOrderManagerImpl implements OrderManager {
         }
 
 
-        return tasks;
-    }
+        return orders;    }
 
-    @Override
-    public void addTask(Task task, Student student) {
-
-        Statement stmt = null;
-        Connection connection = null;
-
-        try {
-            connection = basicDataSource.getConnection();
-            stmt = connection.createStatement();
-            String udapteSQL = "INSERT into tasks (name, description, priority) VALUES (" +
-                    "'" + task.getName() + "', " +
-                    "'" + task.getDescription() + "', " +
-                    "'" + task.getPriority() + "')";
-
-            stmt.executeUpdate(udapteSQL);
-
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-   */
 }

@@ -1,7 +1,5 @@
 package com.theBreak.app.model.order;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -12,35 +10,40 @@ public class Order {
     private String streetAndNr;
     private String city;
     private String postcode;
-    private ArrayList<String> regularOrders;
-    private ArrayList<String> configuredBowl1;
-    private ArrayList<String> configuredBowl2;
-    private ArrayList<String> configuredBowl3;
-    private double[] prices;
+    private List<String> regularOrders;
+    private List<String> configuredBowl1;
+    private List<String> configuredBowl2;
+    private List<String> configuredBowl3;
     private double sum;
     private boolean orderPaid;
     private String pickUpDate;
     private String pickupTime;
-    private String ordertime;
+    private String orderTime;
     private int orderId;
 
     public Order() {}
 
-    public Order(String firstname, String name, String user_mail_address, String street_and_nr,
-                 String city, String postcode, ArrayList<String> regularOrders, ArrayList<String> configuredBowl1,
-                 boolean order_paid, String pick_up_date, String pickupTime){
+    public Order(String firstname, String name, String userMailAddress, String streetAndNr,
+                 String city, String postcode, List<String> regularOrders, List<String> configuredBowl1,
+                 List<String> configuredBowl2, List<String> configuredBowl3, double sum,
+                 boolean orderPaid, String pickUpDate, String pickupTime, String orderTime, int orderId){
         super();
         this.firstname = firstname;
-        this.name = "hallo";
-        this.userMailAddress = user_mail_address;
-        this.streetAndNr = street_and_nr;
+        this.name = name;
+        this.userMailAddress = userMailAddress;
+        this.streetAndNr = streetAndNr;
         this.city = city;
         this.postcode = postcode;
         this.regularOrders = regularOrders;
         this.configuredBowl1 = configuredBowl1;
-        this.orderPaid = order_paid;
-        this.pickUpDate = pick_up_date;
+        this.configuredBowl2 = configuredBowl2;
+        this.configuredBowl3 = configuredBowl3;
+        this.sum = sum;
+        this.orderPaid = orderPaid;
+        this.pickUpDate = pickUpDate;
         this.pickupTime = pickupTime;
+        this.orderTime = orderTime;
+        this.orderId = orderId;
     }
 
     public String getFirstname() {
@@ -95,16 +98,8 @@ public class Order {
         return regularOrders;
     }
 
-    public void setRegularOrders(ArrayList<String> regularOrders) {
+    public void setRegularOrders(List<String> regularOrders) {
         this.regularOrders = regularOrders;
-    }
-
-    public double[] getPrices() {
-        return prices;
-    }
-
-    public void setPrices(double[] prices) {
-        this.prices = prices;
     }
 
     public double getSum() {
@@ -131,35 +126,35 @@ public class Order {
         this.pickUpDate = pickUpDate;
     }
 
-    public String getOrdertime() {
-        return ordertime;
+    public String getOrderTime() {
+        return orderTime;
     }
 
-    public void setOrdertime(String ordertime) {
-        this.ordertime = ordertime;
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 
     public List<String> getConfiguredBowl1() {
         return configuredBowl1;
     }
 
-    public void setConfiguredBowl1(ArrayList<String> configuredBowl1) {
+    public void setConfiguredBowl1(List<String> configuredBowl1) {
         this.configuredBowl1 = configuredBowl1;
     }
 
-    public ArrayList<String> getConfiguredBowl2() {
+    public List<String> getConfiguredBowl2() {
         return configuredBowl2;
     }
 
-    public void setConfiguredBowl2(ArrayList<String> configuredBowl2) {
+    public void setConfiguredBowl2(List<String> configuredBowl2) {
         this.configuredBowl2 = configuredBowl2;
     }
 
-    public ArrayList<String> getConfiguredBowl3() {
+    public List<String> getConfiguredBowl3() {
         return configuredBowl3;
     }
 
-    public void setConfiguredBowl3(ArrayList<String> configuredBowl3) {
+    public void setConfiguredBowl3(List<String> configuredBowl3) {
         this.configuredBowl3 = configuredBowl3;
     }
 
@@ -179,13 +174,7 @@ public class Order {
         this.pickupTime = pickupTime;
     }
 
-    public double calcSum(){
-        double subtotal = 0;
-        for(double prices : this.prices ){
-            subtotal += prices;
-        }
-        return subtotal;
-    }
+
 
 
 

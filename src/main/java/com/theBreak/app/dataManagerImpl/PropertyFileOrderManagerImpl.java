@@ -6,6 +6,7 @@ import com.theBreak.app.utils.OrderUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -60,5 +61,10 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Collection<Order> getAllOrders(String userMailAddress) {
+        return null;
     }
 }
