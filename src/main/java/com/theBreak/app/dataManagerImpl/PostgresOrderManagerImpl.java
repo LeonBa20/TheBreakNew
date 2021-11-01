@@ -154,7 +154,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM tasks WHERE userMailAddress = " + userMailAddress);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress = " + userMailAddress);
             while (rs.next()) {
                 orders.add(
                         new Order(
