@@ -48,4 +48,17 @@ public class MappingController {
 
         return "Database Table created";
     }
+
+    @PostMapping(
+            path = "/order/deletetable"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteOrders() {
+
+        final PostgresOrderManagerImpl postgresOrderManagerImpl =
+                PostgresOrderManagerImpl.getPostgresOrderManagerImpl();
+        postgresOrderManagerImpl.dropOrdersTable();
+
+        return "Database Table deleted";
+    }
 }

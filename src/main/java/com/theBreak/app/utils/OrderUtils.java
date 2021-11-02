@@ -50,46 +50,4 @@ public class OrderUtils {
         }
         return configuredBowl;
     }
-
-
-
-    public String getSelectedOrderArticle(Order order, int selection){
-        if ( selection < order.getRegularOrders().size() ) {
-            return order.getRegularOrders().get(selection);
-        } else {
-            return "";
-        }
-    }
-
-    public List<String> getOrdersAsList(String order1, String order2, String order3, String order4, String order5, String order6,
-                                        String order7, String order8){
-        List<String> orders = null;
-
-        if (order1 != ""){
-            orders.add(order1);
-        }
-        if (order2 != ""){
-            orders.add(order1);
-        }
-        if (order3 != ""){
-            orders.add(order1);
-        }
-        if (order4 != ""){
-            orders.add(order1);
-        }
-        if (order5 != ""){
-            orders.add(order1);
-        }
-        if (order6 != ""){
-            orders.add(order1);
-        }
-        if (order7 != ""){
-            orders.add(order1);
-        }
-        if (order8 != ""){
-            orders.add(order1);
-        }
-        return orders;
-    }
-
 }

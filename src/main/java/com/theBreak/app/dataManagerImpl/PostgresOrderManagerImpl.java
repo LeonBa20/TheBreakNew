@@ -40,16 +40,12 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
     public void createOrdersTable() {
 
-        // Be carefull: It deletes data if table already exists.
-        //
         Statement stmt = null;
         Connection connection = null;
 
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-
-            // String dropTable = "DROP TABLE tasks";
 
             String createTable = "CREATE TABLE orders (" +
                     "orderId SERIAL PRIMARY KEY, " +
@@ -72,12 +68,9 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "configBowl3 varchar(350), " +
                     "sum double precision, " +
                     "orderPaid boolean NOT NULL, " +
-                    "pickupDate varchar(15) NOT NULL, " +
-                    "pickupTime varchar(15) NOT NULL, " +
-                    "orderTime varchar(35) NOT NULL)";
-
-
-            // stmt.executeUpdate(dropTable);
+                    "pickupDate date NOT NULL, " +
+                    "pickupTime time NOT NULL, " +
+                    "orderTime timestamp NOT NULL)";
 
             stmt.executeUpdate(createTable);
 
@@ -90,7 +83,28 @@ public class PostgresOrderManagerImpl implements OrderManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public void dropOrdersTable(){
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+
+            String dropTable = "DROP TABLE orders";
+            stmt.executeUpdate(dropTable);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -112,14 +126,14 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "'" + order.getStreetAndNr() + "', " +
                     "'" + order.getCity() + "', " +
                     "'" + order.getPostcode() + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,1) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,2) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,3) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,4) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,5) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,6) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,7) + "', " +
-                    "'" + oUtils.getSelectedOrderArticle(order,8) + "', " +
+                    "'" + order.getOrderedArticle1() + "', " +
+                    "'" + order.getOrderedArticle2() + "', " +
+                    "'" + order.getOrderedArticle3() + "', " +
+                    "'" + order.getOrderedArticle4() + "', " +
+                    "'" + order.getOrderedArticle5() + "', " +
+                    "'" + order.getOrderedArticle6() + "', " +
+                    "'" + order.getOrderedArticle7() + "', " +
+                    "'" + order.getOrderedArticle8() + "', " +
                     "'" + oUtils.configuredBowlsToString(order,1) + "', " +
                     "'" + oUtils.configuredBowlsToString(order,2) + "', " +
                     "'" + oUtils.configuredBowlsToString(order,3) + "', " +
@@ -154,7 +168,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress = " + userMailAddress);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"'");
             while (rs.next()) {
                 orders.add(
                         new Order(
@@ -164,9 +178,14 @@ public class PostgresOrderManagerImpl implements OrderManager {
                                 rs.getString("streetAndNr"),
                                 rs.getString("city"),
                                 rs.getString("postcode"),
-                                oUtils.getOrdersAsList(rs.getString("orderedArticle1"),rs.getString("orderedArticle2"),
-                                       rs.getString("orderedArticle3"),rs.getString("orderedArticle4"),rs.getString("orderedArticle5"),
-                                       rs.getString("orderedArticle6"),rs.getString("orderedArticle7"),rs.getString("orderedArticle8")),
+                                rs.getString("orderedArticle1"),
+                                rs.getString("orderedArticle2"),
+                                rs.getString("orderedArticle3"),
+                                rs.getString("orderedArticle4"),
+                                rs.getString("orderedArticle5"),
+                                rs.getString("orderedArticle6"),
+                                rs.getString("orderedArticle7"),
+                                rs.getString("orderedArticle8"),
                                 oUtils.configuredBowlsToList(rs.getString("configBowl1")),
                                 oUtils.configuredBowlsToList(rs.getString("configBowl2")),
                                 oUtils.configuredBowlsToList(rs.getString("configBowl3")),
