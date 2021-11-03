@@ -30,7 +30,11 @@ public class OrderList {
         return orders;
     }
 
-    public void setOrders() {
-        orders = orderManager.getAllOrders(this.userMailAddress);
+    public void setUnpaidOrders() {
+        orders = orderManager.getAllUnpaidOrders(this.userMailAddress);
+    }
+
+    public void setPaidOrders() {
+        orders = orderManager.getAllPaidOrders(this.userMailAddress);
     }
 }

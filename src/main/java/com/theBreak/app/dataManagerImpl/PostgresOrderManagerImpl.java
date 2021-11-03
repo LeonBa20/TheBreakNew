@@ -160,7 +160,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
-    public Collection<Order> getAllOrders(String userMailAddress) {
+    public Collection<Order> getAllUnpaidOrders(String userMailAddress) {
         List<Order> orders = new ArrayList<>();
         Statement stmt = null;
         Connection connection = null;
@@ -168,7 +168,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"' AND orderPaid='false'");
             while (rs.next()) {
                 orders.add(
                         new Order(
@@ -209,7 +209,60 @@ public class PostgresOrderManagerImpl implements OrderManager {
             e.printStackTrace();
         }
 
+        return orders;
+    }
 
-        return orders;    }
+    @Override
+    public Collection<Order> getAllPaidOrders(String userMailAddress) {
+        List<Order> orders = new ArrayList<>();
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"' AND orderPaid='true'");
+            while (rs.next()) {
+                orders.add(
+                        new Order(
+                                rs.getString("firstName"),
+                                rs.getString("name"),
+                                rs.getString("userMailAddress"),
+                                rs.getString("streetAndNr"),
+                                rs.getString("city"),
+                                rs.getString("postcode"),
+                                rs.getString("orderedArticle1"),
+                                rs.getString("orderedArticle2"),
+                                rs.getString("orderedArticle3"),
+                                rs.getString("orderedArticle4"),
+                                rs.getString("orderedArticle5"),
+                                rs.getString("orderedArticle6"),
+                                rs.getString("orderedArticle7"),
+                                rs.getString("orderedArticle8"),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl1")),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl2")),
+                                oUtils.configuredBowlsToList(rs.getString("configBowl3")),
+                                rs.getDouble("sum"),
+                                rs.getBoolean("orderPaid"),
+                                rs.getString("pickUpDate"),
+                                rs.getString("pickupTime"),
+                                rs.getString("orderTime"),
+                                rs.getInt("orderId")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
 
 }
