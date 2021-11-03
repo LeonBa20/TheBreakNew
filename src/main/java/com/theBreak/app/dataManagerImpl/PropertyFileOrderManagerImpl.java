@@ -37,8 +37,8 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         final AtomicLong counter = new AtomicLong();
         counter.set(0);
 
-        properties.setProperty("Order." + counter.incrementAndGet() + ".firstname", order.getFirstname());
-        properties.setProperty("Order." + counter.get() + ".name", order.getName());
+        properties.setProperty("Order." + counter.incrementAndGet() + ".firstName", order.getFirstName());
+        properties.setProperty("Order." + counter.get() + ".lastName", order.getLastName());
         properties.setProperty("Order." + counter.get() + ".usermail-address", "" + order.getUserMailAddress());
         properties.setProperty("Order." + counter.get() + ".street and housenumber", "" + order.getStreetAndNr());
         properties.setProperty("Order." + counter.get() + ".city", "" + order.getCity());
@@ -61,6 +61,11 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void editCollectTime(Order order) {
+
     }
 
     @Override

@@ -49,8 +49,8 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
             String createTable = "CREATE TABLE orders (" +
                     "orderId SERIAL PRIMARY KEY, " +
-                    "firstname varchar(100) NOT NULL, " +
-                    "name varchar(100) NOT NULL, " +
+                    "firstName varchar(100) NOT NULL, " +
+                    "lastName varchar(100) NOT NULL, " +
                     "userMailAddress varchar(100) NOT NULL, " +
                     "streetandNr varchar(150) NOT NULL, " +
                     "city varchar(100) NOT NULL, " +
@@ -116,12 +116,12 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "INSERT into orders (firstname, name, userMailAddress, streetandNr, city, postcode, " +
+            String udapteSQL = "INSERT into orders (firstName, lastName, userMailAddress, streetandNr, city, postcode, " +
                     "orderedArticle1, orderedArticle2, orderedArticle3, orderedArticle4, orderedArticle5, orderedArticle6, " +
                     "orderedArticle7, orderedArticle8, configBowl1, configBowl2, configBowl3, sum, orderPaid, pickupDate, " +
                     "pickupTime, orderTime) VALUES (" +
-                    "'" + order.getFirstname() + "', " +
-                    "'" + order.getName() + "', " +
+                    "'" + order.getFirstName() + "', " +
+                    "'" + order.getLastName() + "', " +
                     "'" + order.getUserMailAddress() + "', " +
                     "'" + order.getStreetAndNr() + "', " +
                     "'" + order.getCity() + "', " +
@@ -160,6 +160,31 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
+    public void editCollectTime(Order order) {
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            String udapteSQL = "UPDATE orders SET pickupTime='"+order.getPickupTime()+"' WHERE orderId='" + order.getOrderId() + "'";
+
+            stmt.executeUpdate(udapteSQL);
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Collection<Order> getAllUnpaidOrders(String userMailAddress) {
         List<Order> orders = new ArrayList<>();
         Statement stmt = null;
@@ -173,7 +198,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                 orders.add(
                         new Order(
                                 rs.getString("firstName"),
-                                rs.getString("name"),
+                                rs.getString("lastName"),
                                 rs.getString("userMailAddress"),
                                 rs.getString("streetAndNr"),
                                 rs.getString("city"),
@@ -226,7 +251,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                 orders.add(
                         new Order(
                                 rs.getString("firstName"),
-                                rs.getString("name"),
+                                rs.getString("lastName"),
                                 rs.getString("userMailAddress"),
                                 rs.getString("streetAndNr"),
                                 rs.getString("city"),

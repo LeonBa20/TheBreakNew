@@ -89,6 +89,7 @@ public class PostgresUserManagerImpl implements UserManager {
         }
     }
 
+    @Override
     public boolean checkIfUserExists(User user) {
         boolean userExists = false;
         Statement stmt = null;
@@ -116,6 +117,7 @@ public class PostgresUserManagerImpl implements UserManager {
         return userExists;
     }
 
+    @Override
     public boolean userLoggedIn(User user){
         boolean loggedIn = false;
         Statement stmt = null;
@@ -141,6 +143,7 @@ public class PostgresUserManagerImpl implements UserManager {
         return loggedIn;
     }
 
+    @Override
     public boolean checkIfPasswordIsCorrect(User user){
         User referenceUser = new User();
         boolean success = false;

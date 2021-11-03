@@ -6,6 +6,7 @@ import java.util.Collection;
 
 public interface OrderManager {
     void addOrder (Order order);
+    void editCollectTime (Order order);
     Collection<Order> getAllUnpaidOrders(String userMailAddress);
     Collection<Order> getAllPaidOrders(String userMailAddress);
 }

@@ -59,6 +59,22 @@ public class MappingController {
         }
     }
 
+    @PatchMapping(
+            path = "/order/timeEdit",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public String timeEdit(@RequestBody Order order) {
+        User checkLogin = new User();
+        checkLogin.setUserMailAddress(order.getUserMailAddress());
+        if (userManager.userLoggedIn(checkLogin)){
+            orderManager.editCollectTime(order);
+            return "Pickuptime changed";
+        } else {
+            return "User not logged in";
+        }
+    }
+
     @PostMapping(
             path = "/order/createtable"
     )
@@ -92,7 +108,7 @@ public class MappingController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     @ResponseStatus(HttpStatus.OK)
-    public String createTask(@RequestBody User user) {
+    public String createOrder(@RequestBody User user) {
         userManager.addUser(user);
 
         return user.getUserMailAddress();

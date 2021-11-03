@@ -14,7 +14,7 @@ public class OrderUtils {
     }
 
     public String configuredBowlsToString(Order order, int configSelect){
-        String ingredientList = "";
+        String ingredientList = null;
         if (configSelect == 1 && order.getConfiguredBowl1() != null) {
             for (int i = 0; i < order.getConfiguredBowl1().size(); i++ ) {
                 if (i < order.getConfiguredBowl1().size() - 1) {

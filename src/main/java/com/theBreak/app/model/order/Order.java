@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Order {
 
-    private String firstname;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String userMailAddress;
     private String streetAndNr;
     private String city;
@@ -30,15 +30,15 @@ public class Order {
 
     public Order() {}
 
-    public Order(String firstname, String name, String userMailAddress, String streetAndNr,
+    public Order(String firstName, String lastName, String userMailAddress, String streetAndNr,
                  String city, String postcode, String orderedArticle1, String orderedArticle2,
                  String orderedArticle3, String orderedArticle4, String orderedArticle5, String orderedArticle6,
                  String orderedArticle7, String orderedArticle8, List<String> configuredBowl1,
                  List<String> configuredBowl2, List<String> configuredBowl3, double sum,
                  boolean orderPaid, String pickUpDate, String pickupTime, String orderTime, int orderId){
         super();
-        this.firstname = firstname;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.userMailAddress = userMailAddress;
         this.streetAndNr = streetAndNr;
         this.city = city;
@@ -62,20 +62,20 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUserMailAddress() {
