@@ -64,7 +64,13 @@ public class PropertyFileOrderManagerImpl implements OrderManager {
     }
 
     @Override
-    public Collection<Order> getAllOrders(String userMailAddress) {
+    public Collection<Order> getAllUnpaidOrders(String userMailAddress) {
         return null;
     }
+
+    @Override
+    public Collection<Order> getAllPaidOrders(String userMailAddress) {
+        return null;
+    }
+
 }
