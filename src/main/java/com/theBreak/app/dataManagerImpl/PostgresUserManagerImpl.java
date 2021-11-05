@@ -178,8 +178,6 @@ public class PostgresUserManagerImpl implements UserManager {
         return success;
     }
 
-
-
     @Override
     public void addUser(User user) {
 
@@ -278,6 +276,31 @@ public class PostgresUserManagerImpl implements UserManager {
             e.printStackTrace();
         }
         return user;
+    }
+
+    @Override
+    public void deleteUser(String userMailAddress) {
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            String udapteSQL = "DELETE FROM users WHERE userMailAddress='" + userMailAddress + "'";
+
+            stmt.executeUpdate(udapteSQL);
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

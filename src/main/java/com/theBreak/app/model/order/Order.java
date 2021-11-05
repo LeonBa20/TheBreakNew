@@ -110,78 +110,6 @@ public class Order {
         this.postcode = postcode;
     }
 
-    public double getSum() {
-        return sum;
-    }
-
-    public void setSum(double sum) {
-        this.sum = sum;
-    }
-
-    public boolean isOrderPaid() {
-        return orderPaid;
-    }
-
-    public void setOrderPaid(boolean orderPaid) {
-        this.orderPaid = orderPaid;
-    }
-
-    public String getPickUpDate() {
-        return pickUpDate;
-    }
-
-    public void setPickUpDate(String pickUpDate) {
-        this.pickUpDate = pickUpDate;
-    }
-
-    public String getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public List<String> getConfiguredBowl1() {
-        return configuredBowl1;
-    }
-
-    public void setConfiguredBowl1(List<String> configuredBowl1) {
-        this.configuredBowl1 = configuredBowl1;
-    }
-
-    public List<String> getConfiguredBowl2() {
-        return configuredBowl2;
-    }
-
-    public void setConfiguredBowl2(List<String> configuredBowl2) {
-        this.configuredBowl2 = configuredBowl2;
-    }
-
-    public List<String> getConfiguredBowl3() {
-        return configuredBowl3;
-    }
-
-    public void setConfiguredBowl3(List<String> configuredBowl3) {
-        this.configuredBowl3 = configuredBowl3;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getPickupTime() {
-        return pickupTime;
-    }
-
-    public void setPickupTime(String pickupTime) {
-        this.pickupTime = pickupTime;
-    }
-
     public String getOrderedArticle1() {
         return orderedArticle1;
     }
@@ -244,5 +172,77 @@ public class Order {
 
     public void setOrderedArticle8(String orderedArticle8) {
         this.orderedArticle8 = orderedArticle8;
+    }
+
+    public List<String> getConfiguredBowl1() {
+        return configuredBowl1;
+    }
+
+    public void setConfiguredBowl1(List<String> configuredBowl1) {
+        this.configuredBowl1 = configuredBowl1;
+    }
+
+    public List<String> getConfiguredBowl2() {
+        return configuredBowl2;
+    }
+
+    public void setConfiguredBowl2(List<String> configuredBowl2) {
+        this.configuredBowl2 = configuredBowl2;
+    }
+
+    public List<String> getConfiguredBowl3() {
+        return configuredBowl3;
+    }
+
+    public void setConfiguredBowl3(List<String> configuredBowl3) {
+        this.configuredBowl3 = configuredBowl3;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
+    public boolean isOrderPaid() {
+        return orderPaid;
+    }
+
+    public void setOrderPaid(boolean orderPaid) {
+        this.orderPaid = orderPaid;
+    }
+
+    public String getPickUpDate() {
+        return pickUpDate;
+    }
+
+    public void setPickUpDate(String pickUpDate) {
+        this.pickUpDate = pickUpDate;
+    }
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPickupTime() {
+        return pickupTime;
+    }
+
+    public void setPickupTime(String pickupTime) {
+        this.pickupTime = pickupTime;
     }
 }

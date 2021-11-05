@@ -17,10 +17,9 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
     OrderUtils oUtils = new OrderUtils();
 
-
-    String databaseURL = "jdbc:postgresql://ec2-34-251-245-108.eu-west-1.compute.amazonaws.com:5432/dfqljtejfsvqgl";
-    String username = "ttiwxchgaycxvi";
-    String password = "104ce8459d7a0770e4088cad1bcbf7a0423528ce176f22ae90a115c713c8d34a";
+    String databaseURL = "jdbc:postgresql://ec2-54-228-162-209.eu-west-1.compute.amazonaws.com:5432/d96l8d28b825i5";
+    String username = "ctqkmudflbnulg";
+    String password = "a01798363ea3e4130085e31ed8a608c66359c57ecb85e3a90f478ac09dd713e2";
     BasicDataSource basicDataSource;
 
     static PostgresOrderManagerImpl postgresOrderManager = null;
@@ -52,9 +51,9 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "firstName varchar(100) NOT NULL, " +
                     "lastName varchar(100) NOT NULL, " +
                     "userMailAddress varchar(100) NOT NULL, " +
-                    "streetandNr varchar(150) NOT NULL, " +
-                    "city varchar(100) NOT NULL, " +
-                    "postcode varchar(20) NOT NULL, " +
+                    "streetandNr varchar(150), " +
+                    "city varchar(100), " +
+                    "postcode varchar(20), " +
                     "orderedArticle1 varchar(30), " +
                     "orderedArticle2 varchar(30), " +
                     "orderedArticle3 varchar(30), " +
@@ -185,6 +184,32 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
+    public void editCollectTimeWithBot(Order order) {
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            String udapteSQL = "UPDATE orders SET pickupTime='"+order.getPickupTime()+"' " +
+                    "WHERE userMailAddress='" + order.getUserMailAddress() + "' AND pickupDate='" + order.getPickUpDate() + "'";
+
+            stmt.executeUpdate(udapteSQL);
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Collection<Order> getAllUnpaidOrders(String userMailAddress) {
         List<Order> orders = new ArrayList<>();
         Statement stmt = null;
@@ -233,7 +258,6 @@ public class PostgresOrderManagerImpl implements OrderManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return orders;
     }
 
@@ -286,6 +310,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         return orders;
     }

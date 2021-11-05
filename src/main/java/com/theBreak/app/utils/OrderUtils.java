@@ -14,7 +14,7 @@ public class OrderUtils {
     }
 
     public String configuredBowlsToString(Order order, int configSelect){
-        String ingredientList = null;
+        String ingredientList = "";
         if (configSelect == 1 && order.getConfiguredBowl1() != null) {
             for (int i = 0; i < order.getConfiguredBowl1().size(); i++ ) {
                 if (i < order.getConfiguredBowl1().size() - 1) {
@@ -46,7 +46,7 @@ public class OrderUtils {
     public List<String> configuredBowlsToList(String bowl) {
         List<String> configuredBowl = null;
         if (bowl != null) {
-           configuredBowl = Arrays.asList(bowl.split(","));
+            configuredBowl = Arrays.asList(bowl.split(","));
         }
         return configuredBowl;
     }

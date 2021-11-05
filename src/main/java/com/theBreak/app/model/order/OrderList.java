@@ -37,4 +37,5 @@ public class OrderList {
     public void setPaidOrders() {
         orders = orderManager.getAllPaidOrders(this.userMailAddress);
     }
+
 }

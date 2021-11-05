@@ -6,6 +6,7 @@ public interface UserManager {
     public void addUser(User user);
     public void editUser(User user);
     public User getUser(String userMailAddress);
+    public void deleteUser(String userMailAddress);
     public void login(User user);
     public void logout(User user);
     public boolean checkIfUserExists(User user);
