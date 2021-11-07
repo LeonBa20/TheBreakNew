@@ -307,7 +307,7 @@ public class MappingController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     @Operation(summary = "Fügt einen normalen Artikel zu Nutzerfavoriten hinzu", description = "Es wird ein neuer Favorit für den Nutzer erstellt. Zuvor wird anhand " +
-            "der Mail-Adresse geprüft, ob der Nutzer eingeloggt ist. Mit jedem Aufruf wird ein normaler Arikel als Favorit mitgegeben.")
+            "der Mail-Adresse geprüft, ob der Nutzer eingeloggt ist. Mit jedem Aufruf wird ein normaler Artikel als Favorit mitgegeben.")
     @ResponseStatus(HttpStatus.OK)
     public String createArticleFav(@RequestBody UserFavorites favorite) {
         User checkLogin = new User();
