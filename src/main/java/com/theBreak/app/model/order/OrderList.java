@@ -30,12 +30,14 @@ public class OrderList {
         return orders;
     }
 
-    public void setUnpaidOrders() {
-        orders = orderManager.getAllUnpaidOrders(this.userMailAddress);
-    }
+    /**
+     * Holt sich alle Bestellungen des Nutzers.
+     */
+    public void setOrdersToAllFromUser() { orders = orderManager.getAllOrdersFromUser(this.userMailAddress); }
 
-    public void setPaidOrders() {
-        orders = orderManager.getAllPaidOrders(this.userMailAddress);
-    }
+    /**
+     * Holt sich nur die Bestellungen des Nutzers, die noch nicht abgeholt (abgeschlossen) sind.
+     */
+    public void setOrdersToAllNotPickedUpFromUser() { orders = orderManager.getAllNotPickUpOrdersFromUser(this.userMailAddress); }
 
 }

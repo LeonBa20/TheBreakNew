@@ -1,13 +1,25 @@
 package com.theBreak.app.model.user;
 
-public class User {
+import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Nutzerdatenklasse
+ */
+@Schema(description = "Nutzer")
+public class User {
+    @Schema(description = "Max")
     private String firstName;
+    @Schema(description = "Mustermann")
     private String lastName;
+    @Schema(description = "Beispielstraße 5")
     private String streetAndNr;
+    @Schema(description = "Beispielstadt")
     private String city;
+    @Schema(description = "00000")
     private String postcode;
+    @Schema(description = "max@mustermann.de")
     private String userMailAddress;
+    @Schema(description = "Passwort123")
     private String password;
 
     public User(){};

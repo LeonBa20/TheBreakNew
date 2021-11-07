@@ -29,7 +29,14 @@ public class UserFavoritesList {
         return favorites;
     }
 
-    public void setArticleFavs() {
-        favorites = userFavManager.getAllFavs(this.userMailAddress);
-    }
+    /**
+     * Holt sich die normalen Artikel des Nutzers aus der Favoriten-Tabelle.
+     */
+    public void setFavsToAllArticlesFromUser() { favorites = userFavManager.getAllArticleFavs(this.userMailAddress); }
+
+    /**
+     * Holt sich die konfigurierten Bowls des Nutzers aus der Favoriten-Tabelle.
+     */
+    public void setFavsToAllBowlsFromUser() { favorites = userFavManager.getAllBowlFavs(this.userMailAddress); }
+
 }

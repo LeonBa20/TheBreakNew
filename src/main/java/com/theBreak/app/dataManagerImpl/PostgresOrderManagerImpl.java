@@ -17,6 +17,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
     OrderUtils oUtils = new OrderUtils();
 
+
     String databaseURL = "jdbc:postgresql://ec2-54-228-162-209.eu-west-1.compute.amazonaws.com:5432/d96l8d28b825i5";
     String username = "ctqkmudflbnulg";
     String password = "a01798363ea3e4130085e31ed8a608c66359c57ecb85e3a90f478ac09dd713e2";
@@ -51,9 +52,6 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "firstName varchar(100) NOT NULL, " +
                     "lastName varchar(100) NOT NULL, " +
                     "userMailAddress varchar(100) NOT NULL, " +
-                    "streetandNr varchar(150), " +
-                    "city varchar(100), " +
-                    "postcode varchar(20), " +
                     "orderedArticle1 varchar(30), " +
                     "orderedArticle2 varchar(30), " +
                     "orderedArticle3 varchar(30), " +
@@ -69,6 +67,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "orderPaid boolean NOT NULL, " +
                     "pickupDate date NOT NULL, " +
                     "pickupTime time NOT NULL, " +
+                    "orderPickedUp boolean NOT NULL, " +
                     "orderTime timestamp NOT NULL)";
 
             stmt.executeUpdate(createTable);
@@ -108,23 +107,19 @@ public class PostgresOrderManagerImpl implements OrderManager {
 
     @Override
     public void addOrder(Order order) {
-
         Statement stmt = null;
         Connection connection = null;
 
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "INSERT into orders (firstName, lastName, userMailAddress, streetandNr, city, postcode, " +
-                    "orderedArticle1, orderedArticle2, orderedArticle3, orderedArticle4, orderedArticle5, orderedArticle6, " +
-                    "orderedArticle7, orderedArticle8, configBowl1, configBowl2, configBowl3, sum, orderPaid, pickupDate, " +
-                    "pickupTime, orderTime) VALUES (" +
+            String udapteSQL = "INSERT into orders (firstName, lastName, userMailAddress, orderedArticle1, " +
+                    "orderedArticle2, orderedArticle3, orderedArticle4, orderedArticle5, orderedArticle6, " +
+                    "orderedArticle7, orderedArticle8, configBowl1, configBowl2, configBowl3, sum, orderPaid, " +
+                    "pickupDate, pickupTime, orderPickedUp, orderTime) VALUES (" +
                     "'" + order.getFirstName() + "', " +
                     "'" + order.getLastName() + "', " +
-                    "'" + order.getUserMailAddress() + "', " +
-                    "'" + order.getStreetAndNr() + "', " +
-                    "'" + order.getCity() + "', " +
-                    "'" + order.getPostcode() + "', " +
+                    "'" + order.getUserMailAddress().toLowerCase() + "', " +
                     "'" + order.getOrderedArticle1() + "', " +
                     "'" + order.getOrderedArticle2() + "', " +
                     "'" + order.getOrderedArticle3() + "', " +
@@ -140,12 +135,11 @@ public class PostgresOrderManagerImpl implements OrderManager {
                     "'" + order.isOrderPaid() + "', " +
                     "'" + order.getPickUpDate() + "', " +
                     "'" + order.getPickupTime() + "', " +
+                    "false, " +
                     "'" + oUtils.getTimestamp() + "')";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -159,6 +153,52 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
+    public void deleteOrder(int orderId) {
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            String udapteSQL = "DELETE FROM orders WHERE orderId=" + orderId;
+
+            stmt.executeUpdate(udapteSQL);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setOrderIsPickedUp(int orderId) {
+        Statement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = basicDataSource.getConnection();
+            stmt = connection.createStatement();
+            String udapteSQL = "UPDATE orders SET orderPickedUp=true WHERE orderId=" + orderId;
+
+            stmt.executeUpdate(udapteSQL);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void editCollectTime(Order order) {
         Statement stmt = null;
         Connection connection = null;
@@ -166,12 +206,10 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "UPDATE orders SET pickupTime='"+order.getPickupTime()+"' WHERE orderId='" + order.getOrderId() + "'";
+            String udapteSQL = "UPDATE orders SET pickupTime='"+order.getPickupTime()+"' WHERE orderId=" + order.getOrderId();
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -192,12 +230,11 @@ public class PostgresOrderManagerImpl implements OrderManager {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
             String udapteSQL = "UPDATE orders SET pickupTime='"+order.getPickupTime()+"' " +
-                    "WHERE userMailAddress='" + order.getUserMailAddress() + "' AND pickupDate='" + order.getPickUpDate() + "'";
+                    "WHERE userMailAddress='" + order.getUserMailAddress().toLowerCase() +
+                    "' AND pickupDate='" + order.getPickUpDate() + "'";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -210,7 +247,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
-    public Collection<Order> getAllUnpaidOrders(String userMailAddress) {
+    public Collection<Order> getAllOrdersFromUser(String userMailAddress) {
         List<Order> orders = new ArrayList<>();
         Statement stmt = null;
         Connection connection = null;
@@ -218,16 +255,13 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"' AND orderPaid='false'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress.toLowerCase()+"'");
             while (rs.next()) {
                 orders.add(
                         new Order(
                                 rs.getString("firstName"),
                                 rs.getString("lastName"),
                                 rs.getString("userMailAddress"),
-                                rs.getString("streetAndNr"),
-                                rs.getString("city"),
-                                rs.getString("postcode"),
                                 rs.getString("orderedArticle1"),
                                 rs.getString("orderedArticle2"),
                                 rs.getString("orderedArticle3"),
@@ -244,6 +278,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                                 rs.getString("pickUpDate"),
                                 rs.getString("pickupTime"),
                                 rs.getString("orderTime"),
+                                rs.getBoolean("orderPickedUp"),
                                 rs.getInt("orderId")
                         )
                 );
@@ -262,7 +297,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
     @Override
-    public Collection<Order> getAllPaidOrders(String userMailAddress) {
+    public Collection<Order> getAllNotPickUpOrdersFromUser(String userMailAddress) {
         List<Order> orders = new ArrayList<>();
         Statement stmt = null;
         Connection connection = null;
@@ -270,16 +305,14 @@ public class PostgresOrderManagerImpl implements OrderManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress+"' AND orderPaid='true'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM orders WHERE userMailAddress='"+userMailAddress.toLowerCase()+
+                    "' AND orderPickedUp=false");
             while (rs.next()) {
                 orders.add(
                         new Order(
                                 rs.getString("firstName"),
                                 rs.getString("lastName"),
                                 rs.getString("userMailAddress"),
-                                rs.getString("streetAndNr"),
-                                rs.getString("city"),
-                                rs.getString("postcode"),
                                 rs.getString("orderedArticle1"),
                                 rs.getString("orderedArticle2"),
                                 rs.getString("orderedArticle3"),
@@ -296,6 +329,7 @@ public class PostgresOrderManagerImpl implements OrderManager {
                                 rs.getString("pickUpDate"),
                                 rs.getString("pickupTime"),
                                 rs.getString("orderTime"),
+                                rs.getBoolean("orderPickedUp"),
                                 rs.getInt("orderId")
                         )
                 );
@@ -316,3 +350,5 @@ public class PostgresOrderManagerImpl implements OrderManager {
     }
 
 }
+
+

@@ -98,7 +98,7 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='"+user.getUserMailAddress()+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='"+user.getUserMailAddress().toLowerCase()+"'");
             if (rs.next()){
                 userExists = true;
             } else {
@@ -126,7 +126,7 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT loggedIn FROM users WHERE userMailAddress='"+user.getUserMailAddress()+"'");
+            ResultSet rs = stmt.executeQuery("SELECT loggedIn FROM users WHERE userMailAddress='"+user.getUserMailAddress().toLowerCase()+"'");
             while (rs.next()) {
                 loggedIn = rs.getBoolean("loggedIn");
             }
@@ -153,7 +153,7 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='" + user.getUserMailAddress() + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='" + user.getUserMailAddress().toLowerCase() + "'");
 
             while (rs.next()) {
                 referenceUser.setUserMailAddress(rs.getString("userMailAddress"));
@@ -187,9 +187,10 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "INSERT into users (userMailAddress, loggedIn, firstName, lastName, streetandNr, city, postcode, password, userCreationDate) VALUES (" +
-                    "'" + user.getUserMailAddress() + "', " +
-                    "'false', " +
+            String udapteSQL = "INSERT into users (userMailAddress, loggedIn, firstName, lastName, streetandNr, city, " +
+                    "postcode, password, userCreationDate) VALUES (" +
+                    "'" + user.getUserMailAddress().toLowerCase() + "', " +
+                    "false, " +
                     "'" + user.getFirstName() + "', " +
                     "'" + user.getLastName() + "', " +
                     "'" + user.getStreetAndNr() + "', " +
@@ -200,8 +201,6 @@ public class PostgresUserManagerImpl implements UserManager {
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -229,12 +228,10 @@ public class PostgresUserManagerImpl implements UserManager {
                     "city='"+user.getCity()+"', " +
                     "postcode='"+user.getPostcode()+"', " +
                     "password='"+user.getPassword()+"' " +
-                    "WHERE userMailAddress='" + user.getUserMailAddress() + "'";
+                    "WHERE userMailAddress='" + user.getUserMailAddress().toLowerCase() + "'";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -255,7 +252,7 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='"+userMailAddress+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE userMailAddress='"+userMailAddress.toLowerCase()+"'");
             while (rs.next()) {
                 user.setFirstName(rs.getString("firstName"));
                 user.setLastName(rs.getString("lastName"));
@@ -286,12 +283,10 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "DELETE FROM users WHERE userMailAddress='" + userMailAddress + "'";
+            String udapteSQL = "DELETE FROM users WHERE userMailAddress='" + userMailAddress.toLowerCase() + "'";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -311,12 +306,10 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "UPDATE users SET loggedIn='true' WHERE userMailAddress='" + user.getUserMailAddress() + "'";
+            String udapteSQL = "UPDATE users SET loggedIn=true WHERE userMailAddress='" + user.getUserMailAddress().toLowerCase() + "'";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -337,12 +330,10 @@ public class PostgresUserManagerImpl implements UserManager {
         try {
             connection = basicDataSource.getConnection();
             stmt = connection.createStatement();
-            String udapteSQL = "UPDATE users SET loggedIn='false' WHERE userMailAddress='" + user.getUserMailAddress() + "'";
+            String udapteSQL = "UPDATE users SET loggedIn=false WHERE userMailAddress='" + user.getUserMailAddress().toLowerCase() + "'";
 
             stmt.executeUpdate(udapteSQL);
 
-            stmt.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

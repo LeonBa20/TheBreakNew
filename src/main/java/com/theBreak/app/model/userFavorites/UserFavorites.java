@@ -1,11 +1,26 @@
 package com.theBreak.app.model.userFavorites;
 
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.List;
+/**
+ * Klasse für die Nutzerfavoriten.
+ */
+@Schema(description = "Nutzerfavorit")
 public class UserFavorites {
+    /**
+     * favoriteId = ID des Favoriten-Datensatzes
+     * userMailAddress = Identifikation des Nutzers
+     * favoriteArticle = normaler Artikel, wie bspw. ein Kaffee
+     * favoriteBowl = Konfigurierte Bowl als Liste. Liste besteht aus ihren Zutaten.
+     */
+    @Schema(description = "Zahl *Wird automatisiert im Backend vergeben")
     private int favoriteId;
+    @Schema(description = "max@mustermann.de")
     private String userMailAddress;
+    @Schema(description = "Kaffee groß")
     private String favoriteArticle;
+    @Schema(description = "Haferflocken, Joghurt, Erdbeere, Banane, Schokolade")
     private List<String> favoriteBowl;
 
     public UserFavorites(){}
